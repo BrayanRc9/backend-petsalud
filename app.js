@@ -4,12 +4,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 // Importar rutas
-import authRoutes from "./routes/auth.routes.js";
-import usuarioRoutes from "./routes/usuario.routes.js";
-import mascotaRoutes from "./routes/mascota.routes.js";
-import historiaRoutes from "./routes/historias.routes.js";
-import citaRoutes from "./routes/cita.routes.js";
-import inventarioRoutes from "./routes/inventario.routes.js";
+import authRoutes from "./routes/authRoutes.js";
+import usuarioRoutes from "./routes/usuarioRoutes.js";
+import mascotaRoutes from "./routes/mascotaRoutes.js";
+import historiaRoutes from "./routes/historiasRoutes.js";
+import citaRoutes from "./routes/citaRoutes.js";
+import inventarioRoutes from "./routes/inventarioRoutes.js";
 
 dotenv.config();
 const app = express();

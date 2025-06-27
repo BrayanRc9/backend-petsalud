@@ -1,34 +1,41 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const authRoutes = require("./routes/authRoutes");
-const mascotaRoutes = require("./routes/mascotaRoutes");
-const citaRoutes = require("./routes/citaRoutes");
-const inventarioRoutes = require("./routes/inventarioRoutes");
+// Importar rutas
+import authRoutes from "./routes/auth.routes.js";
+import usuarioRoutes from "./routes/usuario.routes.js";
+import mascotaRoutes from "./routes/mascota.routes.js";
+import historiaRoutes from "./routes/historias.routes.js";
+import citaRoutes from "./routes/cita.routes.js";
+import inventarioRoutes from "./routes/inventario.routes.js";
 
+dotenv.config();
 const app = express();
 
-// 👇 Habilita CORS para tu frontend (Netlify o localhost)
+// Middlewares
 app.use(cors({
-  origin: ["http://localhost:5500", "https://tu-frontend.netlify.app"], // actualiza con tu dominio real
+  origin: process.env.CORS_ORIGIN || "*",
   credentials: true
 }));
-
 app.use(express.json());
 
-// Rutas API
+// Conexión MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log("✅ Conectado a MongoDB"))
+  .catch(err => console.error("❌ Error en conexión MongoDB:", err));
+
+// Rutas
 app.use("/api/auth", authRoutes);
+app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/mascotas", mascotaRoutes);
+app.use("/api/historias", historiaRoutes);
 app.use("/api/citas", citaRoutes);
 app.use("/api/inventario", inventarioRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ Conectado a MongoDB");
-    app.listen(PORT, () => console.log(`🚀 Servidor activo en puerto ${PORT}`));
-  })
-  .catch(err => console.error("❌ Error de conexión a MongoDB:", err));
+// Puerto
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor escuchando en puerto ${PORT}`);
+});

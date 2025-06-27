@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { subirHistoria, listarHistorias, verHistoria } from "../controllers/historias.controller.js";
+import { subirHistoria, listarHistorias, verHistoria } from "../controllers/historiasController.js";
 import { upload } from "../config/gridfs.js";
 import { verificarToken } from "../middlewares/auth.js";
 

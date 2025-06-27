@@ -1,35 +1,49 @@
-const Mascota = require('../models/Mascota');
+import Mascota from "../models/Mascota.js";
+import jwt from "jsonwebtoken";
 
-exports.crearMascota = async (req, res) => {
+// Obtener ID desde el token
+const obtenerIdUsuario = (req) => {
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  return decoded.id;
+};
+
+export const crearMascota = async (req, res) => {
   try {
+    const usuarioId = obtenerIdUsuario(req);
     const { nombre, especie, edad } = req.body;
-    const usuarioId = req.usuario.id;
-
-    const mascota = new Mascota({ nombre, especie, edad, usuarioId });
-    await mascota.save();
-
-    res.json({ msg: "Mascota registrada", mascota });
-  } catch (error) {
-    res.status(500).json({ msg: "Error al registrar mascota" });
+    const nueva = new Mascota({ nombre, especie, edad, usuario: usuarioId });
+    await nueva.save();
+    res.status(201).json({ msg: "Mascota registrada" });
+  } catch (err) {
+    res.status(500).json({ msg: "Error al crear mascota" });
   }
 };
 
-exports.obtenerMisMascotas = async (req, res) => {
+export const obtenerMisMascotas = async (req, res) => {
   try {
-    const usuarioId = req.usuario.id;
-    const mascotas = await Mascota.find({ usuarioId });
-
+    const usuarioId = obtenerIdUsuario(req);
+    const mascotas = await Mascota.find({ usuario: usuarioId });
     res.json(mascotas);
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({ msg: "Error al obtener mascotas" });
   }
 };
 
-exports.eliminarMascota = async (req, res) => {
+export const obtenerTodasMascotas = async (req, res) => {
+  try {
+    const mascotas = await Mascota.find().populate("usuario", "nombre correo");
+    res.json(mascotas);
+  } catch (err) {
+    res.status(500).json({ msg: "Error al obtener todas las mascotas" });
+  }
+};
+
+export const eliminarMascota = async (req, res) => {
   try {
     await Mascota.findByIdAndDelete(req.params.id);
     res.json({ msg: "Mascota eliminada" });
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({ msg: "Error al eliminar mascota" });
   }
 };

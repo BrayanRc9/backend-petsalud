@@ -1,19 +1,16 @@
 import { Router } from "express";
-import { subirHistoria, listarHistorias, verHistoria } from "../controllers/historiasController.js";
-import { upload } from "../config/gridfs.js";
-import { verificarToken } from "../middlewares/auth.js";
 import { uploadPDF } from "../config/gridfs.js";
 
+import {
+  subirHistoria,
+  obtenerHistorias,
+  verHistoriaPDF
+} from "../controllers/historia.controller.js";
 
 const router = Router();
 
-// Subir historia clínica en PDF
-router.post("/historias", verificarToken, upload.single("historia"), subirHistoria);
-
-// Listar historias clínicas guardadas
-router.get("/historias", verificarToken, listarHistorias);
-
-// Visualizar historia clínica PDF
-router.get("/historias/ver/:filename", verificarToken, verHistoria);
+router.post("/", uploadPDF.single("historia"), subirHistoria);
+router.get("/", obtenerHistorias);
+router.get("/ver/:nombre", verHistoriaPDF);
 
 export default router;

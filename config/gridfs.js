@@ -8,7 +8,7 @@ const storage = new GridFsStorage({
   url: process.env.MONGODB_URI,
   file: (req, file) => ({
     filename: file.originalname,
-    bucketName: "historias"
+    bucketName: "historia"
   })
 });
 

@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import mascotaRoutes from "./routes/mascotaRoutes.js";
-import historiaRoutes from "./routes/historiasRoutes.js";
+import historiaRoutes from "./routes/historiaRoutes.js";
 import citaRoutes from "./routes/citaRoutes.js";
 import inventarioRoutes from "./routes/inventarioRoutes.js";
 

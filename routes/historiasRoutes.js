@@ -5,7 +5,7 @@ import {
   subirHistoria,
   obtenerHistorias,
   verHistoriaPDF
-} from "../controllers/historia.controller.js";
+} from "../controllers/historiaController.js";
 
 const router = Router();
 
